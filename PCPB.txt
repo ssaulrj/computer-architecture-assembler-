@@ -1,0 +1,25 @@
+.include "m328P.inc"
+.def T=R22
+.def mar=R23
+.def E=R24
+.org 0x0000
+rjmp stack
+
+stack:
+	Ldi T, High(RAMEND)
+	out SPH, T
+	Ldi T, Low(RAMEND)
+	_out SPL, T 
+
+puertos: 
+	Ldi E, 0b 11110000
+	out DDRC,E 
+
+	Ldi E, 0b 11111111
+	out DDRB,E
+
+principal:
+	in mar, pinc
+	out portb, mar
+	NOP
+	rjmp principal
